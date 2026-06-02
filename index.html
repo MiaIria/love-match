@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="情感人格深度解析 - 18道题目，探索你在恋爱中的情感模式">
+<meta property="og:title" content="💕 情感人格深度解析">
+<meta property="og:description" content="一个专注于恋爱情感世界的深度测评。了解你如何爱、如何怕、如何需要、如何表达。">
+<meta property="og:type" content="website">
+<title>💕 情感人格深度解析</title>
+<style>
+  :root {
+    --primary: #e91e63;
+    --primary-dark: #c2185b;
+    --secondary: #7c3aed;
+    --bg-start: #fce4ec;
+    --bg-end: #f3e5f5;
+    --card: #ffffff;
+    --text: #2d2d2d;
+    --text-light: #666;
+    --text-muted: #999;
+    --gold: #b8860b;
+    --success: #10b981;
+    --border: #f0e0e6;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --radius: 16px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 50%, #fce4ec 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  .app-container {
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+  }
+
+  /* Screen management */
+  .screen {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Card base */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+
+  /* Welcome screen */
+  .welcome-icon {
+    text-align: center;
+    font-size: 56px;
+    margin-bottom: 16px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  .welcome-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .welcome-subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    line-height: 1.8;
+  }
+  .welcome-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  .welcome-features li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .welcome-features li::before {
+    content: '✦';
+    color: var(--primary);
+    font-size: 12px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    font-family: inherit;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    box-shadow: 0 4px 16px rgba(233,30,99,0.3);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 24px rgba(233,30,99,0.4); }
+  .btn-outline {
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+  }
+  .btn-small {
+    padding: 10px 20px;
+    font-size: 14px;
+    width: auto;
+    display: inline-block;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    margin-bottom: 20px;
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #f0e0e6;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* Stage indicator */
+  .stage-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+
+  /* Question */
+  .question-text {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+  .options-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .option-btn:active {
+    border-color: var(--primary);
+    background: #fce4ec;
+    transform: scale(0.98);
+  }
+  .option-letter {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-light);
+    transition: all 0.2s;
+  }
+  .option-btn:active .option-letter {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* Transition screen */
+  .transition-card {
+    text-align: center;
+    padding: 36px 24px;
+  }
+  .transition-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+  .transition-text {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  /* Loading screen */
+  .loading-wrap {
+    text-align: center;
+    padding: 48px 24px;
+  }
+  .loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #f0e0e6;
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .loading-text {
+    font-size: 15px;
+    color: var(--text-light);
+    animation: fadeIn 0.6s ease;
+  }
+
+  /* Results */
+  .result-header {
+    text-align: center;
+    padding: 32px 20px 24px;
+  }
+  .result-label {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+    color: var(--primary);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+  .result-label-desc {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-top: 12px;
+    font-style: italic;
+  }
+  .result-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 28px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #fce4ec;
+  }
+  .result-dimension {
+    margin-bottom: 20px;
+  }
+  .result-dimension h3 {
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .result-dimension p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 8px;
+  }
+  .insight-box {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border-left: 4px solid #f59e0b;
+    padding: 14px 16px;
+    border-radius: 0 12px 12px 0;
+    margin: 16px 0;
+    font-size: 14px;
+    color: #92400e;
+    line-height: 1.8;
+  }
+  .insight-box.high-priority {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border-left-color: #ef4444;
+    color: #991b1b;
+  }
+  .bar-chart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    font-size: 13px;
+  }
+  .bar-label {
+    width: 70px;
+    flex-shrink: 0;
+    text-align: right;
+    color: var(--text-light);
+    font-size: 12px;
+  }
+  .bar-track {
+    flex: 1;
+    height: 8px;
+    background: #f0e0e6;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.8s ease;
+  }
+  .bar-val {
+    width: 80px;
+    flex-shrink: 0;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .section-divider {
+    text-align: center;
+    padding: 12px 0;
+    font-size: 18px;
+    color: var(--primary);
+    letter-spacing: 2px;
+  }
+  .highlight {
+    background: linear-gradient(180deg, transparent 60%, #fce4ec 60%);
+    padding: 0 2px;
+  }
+  .result-footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.8;
+  }
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 24px;
+    font-size: 14px;
+    z-index: 999;
+    animation: toastIn 0.3s ease;
+    pointer-events: none;
+  }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 360px) {
+    .card { padding: 20px 16px; }
+    .question-text { font-size: 16px; }
+    .option-btn { padding: 12px 14px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+<div class="app-container" id="app"></div>
+
+<script>
+// ============================================================
+// LOVE MATCH - 情感人格深度解析 H5
+// ============================================================
+
+// --- DATA ---
+const QUESTIONS = [
+  // Stage 1: 心动原点 (1-3)
+  {
+    id: 1, stage: 1, stageName: '心动原点',
+    question: '回忆一下，过去让你最心动的瞬间，最接近以下哪种场景？',
+    options: {
+      A: '深夜长谈，两个人不知不觉聊到了天亮，感觉被深深理解',
+      B: '对方记住了你说过的一个很小的细节，并在不经意间为你实现了',
+      C: '一起经历了一件冒险或疯狂的事，那种并肩作战的兴奋感',
+      D: '在一个普通的日常时刻，突然有一种"就是ta了"的踏实感'
+    }
+  },
+  {
+    id: 2, stage: 1, stageName: '心动原点',
+    question: '在一段亲密关系中，以下哪个时刻让你感到最满足？',
+    options: {
+      A: '和伴侣进行了一场深入灵魂的对话，感觉彼此完全敞开了',
+      B: '伴侣在你最需要的时候默默出现在身边，什么都没说但什么都做了',
+      C: '一起完成了一个目标或克服了一个困难，感受到"我们是一个团队"',
+      D: '没有任何特别安排的一天，两个人各自做自己的事，却感到无比自在'
+    }
+  },
+  {
+    id: 3, stage: 1, stageName: '心动原点',
+    question: '当你对一个人产生好感时，最初通常是被什么吸引？',
+    options: {
+      A: 'ta的思想和谈吐——聊天中感受到的深度和智慧',
+      B: 'ta对你的关注——那种被认真对待、被"看到"的感觉',
+      C: 'ta的气场和状态——自信、有趣、有生命力的样子',
+      D: 'ta的温柔和稳定——让你感到安心、可以信赖的气质'
+    }
+  },
+  // Stage 2: 社交与沟通 (4-7)
+  {
+    id: 4, stage: 2, stageName: '社交与沟通',
+    question: '参加完一场热闹的社交活动（如聚会/团建/派对）后，你通常感到？',
+    options: {
+      A: '精力充沛，意犹未尽，还想继续聊',
+      B: '心情不错，但需要一点独处时间来恢复',
+      C: '虽然开心，但感觉能量被掏空，需要较长时间回血',
+      D: '筋疲力尽，内心默默想"下次能不去就不去"'
+    }
+  },
+  {
+    id: 5, stage: 2, stageName: '社交与沟通',
+    question: '当你和他人有不同意见时，你更倾向于？',
+    options: {
+      A: '直接说出来，就事论事，不绕弯子',
+      B: '先肯定对方的观点，再委婉地提出自己的想法',
+      C: '看关系亲疏：熟人直接表达，不太熟的就保留意见',
+      D: '尽量避免当面分歧，维持和谐比争对错更重要'
+    }
+  },
+  {
+    id: 6, stage: 2, stageName: '社交与沟通',
+    question: '朋友向你倾诉烦恼时，你的第一反应通常是？',
+    options: {
+      A: '立刻帮忙分析问题，给出具体的解决方案和建议',
+      B: '先认真听完，然后问"你需要建议还是只是想说一说？"',
+      C: '专注倾听，给予情感共鸣和陪伴感，不多打断',
+      D: '分享自己类似的经历，让朋友感觉"原来不止我这样"'
+    }
+  },
+  {
+    id: 7, stage: 2, stageName: '社交与沟通',
+    question: '在一段亲密关系中，关于分享内心感受，哪项最符合你？',
+    options: {
+      A: '我愿意随时分享喜怒哀乐，毫无保留，希望对方也如此',
+      B: '大部分时候愿意分享，但有时需要对方主动问起',
+      C: '只有特别重要的事情才会主动说，习惯先自己消化',
+      D: '表达内心感受让我不太自在，更习惯用行动表达关心'
+    }
+  },
+  // Stage 3: 情绪与冲突 (8-11)
+  {
+    id: 8, stage: 3, stageName: '情绪与冲突',
+    question: '面对巨大压力或挫折时，你更接近哪种状态？',
+    options: {
+      A: '主动找信任的人倾诉，寻求情感支持和建议',
+      B: '一边自己消化，一边适当向亲近的人透露一些',
+      C: '大部分自己扛，偶尔在撑不住的时候才会流露',
+      D: '完全自己消化，不想让别人看到自己的脆弱面'
+    }
+  },
+  {
+    id: 9, stage: 3, stageName: '情绪与冲突',
+    question: '与伴侣发生分歧时，你的本能反应更接近？',
+    options: {
+      A: '立刻沟通，希望尽快把问题摊开说清楚、解决掉',
+      B: '先各自冷静一下，等情绪平复后再坐下来好好谈',
+      C: '先观察对方的态度和反应，再决定怎么应对',
+      D: '本能想回避冲突，希望事情自然淡化或等对方先开口'
+    }
+  },
+  {
+    id: 10, stage: 3, stageName: '情绪与冲突',
+    question: '当感到难过、受伤或脆弱时，你通常？',
+    options: {
+      A: '直接告诉信任的人"我现在不太好"，不害怕展示脆弱',
+      B: '如果有人察觉到并关心地问，会坦白说出来',
+      C: '用间接方式表达（发一条暗示的动态、变得沉默、做事心不在焉）',
+      D: '隐藏情绪装作没事，不想让任何人看出异常'
+    }
+  },
+  {
+    id: 11, stage: 3, stageName: '情绪与冲突',
+    question: '和伴侣争吵后，你觉得最好的和解方式是？',
+    options: {
+      A: '坐下来坦诚沟通，把各自的想法和感受都说清楚',
+      B: '一个拥抱或牵手，用肢体接触来化解隔阂',
+      C: '做一件贴心的小事（做饭、带杯奶茶、默默陪伴），用行动传递歉意',
+      D: '给彼此一些空间和时间，等双方都冷静了自然恢复'
+    }
+  },
+  // Stage 4: 价值观与期望 (12-15)
+  {
+    id: 12, stage: 4, stageName: '价值观与期望',
+    question: '展望未来五年，你内心最看重的是？',
+    options: {
+      A: '事业突破和经济独立，先把根基打牢再说其他',
+      B: '找到人生伴侣，建立稳定温暖的家庭生活',
+      C: '尽可能多地探索世界，积累丰富的体验和故事',
+      D: '深度自我成长，成为思想更成熟、内心更强大的人'
+    }
+  },
+  {
+    id: 13, stage: 4, stageName: '价值观与期望',
+    question: '在你看来，一段理想的亲密关系最接近哪种描述？',
+    options: {
+      A: '并肩作战的战友：目标一致、互相成就、一起变得更好',
+      B: '灵魂深处的知己：精神共鸣、无需多言就能理解彼此',
+      C: '温暖安定的港湾：彼此依靠、细水长流、踏实过日子',
+      D: '一起探索的玩伴：有共同兴趣、轻松快乐、享受当下'
+    }
+  },
+  {
+    id: 14, stage: 4, stageName: '价值观与期望',
+    question: '关于恋爱中的个人空间和独立性，你的看法是？',
+    options: {
+      A: '恋爱就要融合在一起，希望能尽可能多地分享彼此的生活',
+      B: '大部分时间在一起，但各自保留一些独立的爱好和朋友圈',
+      C: '需要明确的个人空间，独处对我来说是重要的能量来源',
+      D: '精神和生活独立很重要，不希望因为恋爱而失去自我'
+    }
+  },
+  {
+    id: 15, stage: 4, stageName: '价值观与期望',
+    question: '关于伴侣身上你不喜欢的特质或习惯，你的态度更接近？',
+    options: {
+      A: '人无完人，接纳对方的全部包括缺点，这才是真正的爱',
+      B: '接纳大部分小缺点，但希望对方在核心问题上能逐步改善',
+      C: '爱一个人就是希望对方变得更好，会主动帮助ta改进成长',
+      D: '如果缺点触及我的原则和底线，会认真考虑这段关系是否合适'
+    }
+  },
+  // Stage 5: 情境抉择 (16-18)
+  {
+    id: 16, stage: 5, stageName: '情境抉择',
+    question: '你发现伴侣近期和一位异性同事经常在手机上聊天（非工作内容），你的第一反应是？',
+    options: {
+      A: '直接询问：坦诚表达自己的感受和担忧，请对方说明情况',
+      B: '暗自观察：先不声张，默默留意更多细节后再做判断',
+      C: '内心焦虑：反复猜测各种可能性，但不太敢开口问',
+      D: '下意识疏远：心里不舒服但不说，用冷淡来保护自己'
+    }
+  },
+  {
+    id: 17, stage: 5, stageName: '情境抉择',
+    question: '伴侣获得了一个非常好的异地升职机会，你们将面临至少两年的异地，你更倾向于？',
+    options: {
+      A: '一起商量做决定：综合双方发展，找到对两人都最优的方案',
+      B: '支持对方去：爱ta就要成全ta的发展，距离可以通过努力克服',
+      C: '希望对方认真考虑留下：异地太消耗感情，本地也有好机会',
+      D: '让对方自己决定：这是ta的人生，我不应该过多干涉和影响'
+    }
+  },
+  {
+    id: 18, stage: 5, stageName: '情境抉择',
+    question: '在恋爱关系中，你更希望伴侣用哪种方式向你表达爱意？',
+    options: {
+      A: '肯定的言语：经常说"我爱你"、真诚的赞美和鼓励、认真听我说话',
+      B: '贴心的行动：帮我分担琐事、在我累的时候照顾我、用行动证明在乎',
+      C: '用心的礼物：精心挑选有意义的礼物、记住每个重要的日子和细节',
+      D: '高质量的陪伴：放下手机的专注时光、一起做喜欢的事、眼神接触和拥抱'
+    }
+  }
+];
+
+const STAGE_TRANSITIONS = {
+  1: { icon: '🗣️', text: '✅ 第一阶段完成！我对你的情感触发点和关系需求有了初步感知。<br><br>接下来我们聊聊你的<b>社交风格和沟通方式</b>，这会帮助我理解你在人际互动中的自然倾向 🗣️' },
+  2: { icon: '🌊', text: '✅ 第二阶段完成！我对你的社交风格有了初步了解。<br><br>现在我们进入更深入的部分——<b>情绪处理和冲突应对</b>，这是亲密关系中非常重要的维度 🌊' },
+  3: { icon: '💎', text: '✅ 第三阶段完成！你对情绪和冲突的处理方式我已经了解了。<br><br>现在让我们聊聊更深层的——<b>你的价值观和人生期待</b>，这决定了你在关系中最根本的追求 💎' },
+  4: { icon: '💭', text: '✅ 第四阶段完成！你的价值观画像越来越清晰了。<br><br>最后三题，我会给你一些<b>真实恋爱中的情境</b>，看看你在关键时刻会如何选择 💭' }
+};
+
+// --- STATE ---
+let answers = {};
+let currentQuestion = 0;
+let currentStage = 1;
+
+// --- RENDER ---
+const app = document.getElementById('app');
+
+function renderWelcome() {
+  app.innerHTML = `
+    <div class="screen active" id="welcome-screen">
+      <div class="card">
+        <div class="welcome-icon">💕</div>
+        <div class="welcome-title">情感人格深度解析</div>
+        <div class="welcome-subtitle">
+          这是一个专注于恋爱情感世界的深度测评。<br>
+          共 <b>18道选择题</b>，分为 <b>5个阶段</b>，大约需要 <b>3-5分钟</b>。<br><br>
+          与MBTI、星座分析等泛性格测试不同，本测评只聚焦一件事：<br>
+          <b>你在恋爱中的情感模式</b>——你如何爱、如何怕、如何需要、如何表达。<br><br>
+          每题只需选择最接近你真实想法的选项，<br>
+          没有对错之分，请跟随直觉作答。
+        </div>
+        <button class="btn btn-primary" onclick="startQuiz()">🚀 开始测评</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQuestion];
+  const progress = Math.round((currentQuestion / 18) * 100);
+  const stageNames = ['', '💭 心动原点', '🗣️ 社交与沟通', '🌊 情绪与冲突', '💎 价值观与期望', '💭 情境抉择'];
+
+  app.innerHTML = `
+    <div class="screen active" id="question-screen">
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span>第 ${q.id}/18 题</span>
+          <span>${stageNames[q.stage]}</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${progress}%"></div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="stage-badge">阶段${q.stage} · ${q.stageName}</span>
+        <div class="question-text">${q.question}</div>
+        <div class="options-list">
+          ${Object.entries(q.options).map(([letter, text]) => `
+            <button class="option-btn" onclick="selectAnswer('${letter}')">
+              <span class="option-letter">${letter}</span>
+              <span>${text}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderTransition(stage) {
+  const t = STAGE_TRANSITIONS[stage];
+  app.innerHTML = `
+    <div class="screen active" id="transition-screen">
+      <div class="card transition-card">
+        <div class="transition-icon">${t.icon}</div>
+        <div class="transition-text">${t.text}</div>
+        <button class="btn btn-primary" style="margin-top:20px" onclick="continueQuiz()">继续 →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderLoading() {
+  const messages = [
+    '正在分析你的情感模式...',
+    '识别依恋风格中...',
+    '解析爱的语言...',
+    '生成专属画像...'
+  ];
+  let idx = 0;
+  app.innerHTML = `
+    <div class="screen active" id="loading-screen">
+      <div class="card loading-wrap">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loading-msg">${messages[0]}</div>
+      </div>
+    </div>
+  `;
+  const msgEl = document.getElementById('loading-msg');
+  const interval = setInterval(() => {
+    idx = (idx + 1) % messages.length;
+    if (msgEl) msgEl.textContent = messages[idx];
+  }, 800);
+  setTimeout(() => {
+    clearInterval(interval);
+    renderResults();
+  }, 2500);
+}
+
+// --- ANALYSIS ENGINE ---
+class LoveMatchAnalyzer {
+  constructor(answers) {
+    this.a = answers; // {1:'A', 2:'B', ...}
+    this.scores = {};
+    this.classifications = {};
+    this.triggeredInsights = [];
+    this.label = {};
+    this.computeAll();
+  }
+
+  ans(id) { return this.a[id]; }
+
+  // --- Dimension Scoring ---
+  computeAll() {
+    this.scoreD1(); // 依恋风格
+    this.scoreD2(); // 情感表达模式
+    this.scoreD3(); // 冲突应对风格
+    this.scoreD4(); // 亲密距离偏好
+    this.scoreD5(); // 爱的语言
+    this.scoreD6(); // 关系安全感
+    this.scoreD7(); // 情感核心驱动力
+    this.checkInsights();
+    this.generateLabel();
+  }
+
+  // D1: 依恋风格 (0=安全, 100=回避)
+  scoreD1() {
+    const map = {
+      Q3: {A:20, B:55, C:25, D:45},
+      Q7: {A:0, B:30, C:55, D:75},
+      Q10: {A:0, B:25, C:50, D:80},
+      Q14: {A:0, B:30, C:55, D:70},
+      Q16: {A:10, B:40, C:65, D:85}
+    };
+    const vals = [map.Q3[this.ans(3)], map.Q7[this.ans(7)], map.Q10[this.ans(10)], map.Q14[this.ans(14)], map.Q16[this.ans(16)]];
+    const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+    this.scores.d1 = Math.round(avg);
+    if (avg <= 25) this.classifications.d1 = {type:'安全型', level:'轻度', desc:'你对关系有基本的安全感，相信伴侣会在你需要时出现。'};
+    else if (avg <= 45) this.classifications.d1 = {type:'安全型偏回避', level:'轻度回避倾向', desc:'大部分时候你感觉安全，但在某些触发情境下会本能地后退一步。'};
+    else if (avg <= 65) this.classifications.d1 = {type:'回避型倾向', level:'中度', desc:'你在关系中习惯保持一定的情感距离，用独立和自给自足来保护自己。'};
+    else this.classifications.d1 = {type:'回避型倾向', level:'明显', desc:'你在情感上高度自给自足，亲密关系中的靠近可能让你感到压力或不安。'};
+  }
+
+  // D2: 情感表达模式 (0=开放直接, 100=含蓄间接)
+  scoreD2() {
+    const map = {
+      Q5: {A:0, B:35, C:45, D:75},
+      Q7: {A:0, B:30, C:55, D:80},
+      Q10: {A:0, B:25, C:50, D:80}
+    };
+    const vals = [map.Q5[this.ans(5)], map.Q7[this.ans(7)], map.Q10[this.ans(10)]];
+    const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+    this.scores.d2 = Math.round(avg);
+    if (avg <= 25) this.classifications.d2 = {type:'开放直接型', desc:'你习惯坦率表达内心的想法和感受，情绪透明度高。'};
+    else if (avg <= 50) this.classifications.d2 = {type:'选择性开放型', desc:'你在信任的人面前可以敞开，但需要对方先给出安全信号。'};
+    else if (avg <= 70) this.classifications.d2 = {type:'含蓄间接型', desc:'你更习惯用行动或间接方式表达情感，说出口的话都是经过深思熟虑的。'};
+    else this.classifications.d2 = {type:'深度内敛型', desc:'你的情感世界丰富但极少外显，表达内心感受让你感到脆弱和不自在。'};
+  }
+
+  // D3: 冲突应对风格 (0=直面, 100=回避)
+  scoreD3() {
+    const map = {
+      Q5: {A:0, B:30, C:45, D:85},
+      Q9: {A:0, B:35, C:55, D:90},
+      Q11: {A:0, B:35, C:45, D:65}
+    };
+    const vals = [map.Q5[this.ans(5)], map.Q9[this.ans(9)], map.Q11[this.ans(11)]];
+    const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+    this.scores.d3 = Math.round(avg);
+    if (avg <= 25) this.classifications.d3 = {type:'主动沟通型', desc:'你相信直面问题是解决冲突的最好方式，不回避、不拖延。'};
+    else if (avg <= 50) this.classifications.d3 = {type:'冷静协调型', desc:'你会在情绪平复后寻求沟通，相信冷静比激烈交锋更有效。'};
+    else if (avg <= 70) this.classifications.d3 = {type:'观察适应型', desc:'你在冲突中先观察对方的态度再决定自己的策略，灵活但有保留。'};
+    else this.classifications.d3 = {type:'回避退让型', desc:'冲突让你感到强烈的不适，你的本能是维持和谐、避免正面交锋。'};
+  }
+
+  // D4: 亲密距离 (0=高融合, 100=高独立)
+  scoreD4() {
+    const map = {
+      Q2: {A:20, B:35, C:25, D:65},
+      Q4: {A:0, B:30, C:55, D:80},
+      Q14: {A:0, B:30, C:60, D:85}
+    };
+    const vals = [map.Q2[this.ans(2)], map.Q4[this.ans(4)], map.Q14[this.ans(14)]];
+    const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+    this.scores.d4 = Math.round(avg);
+    if (avg <= 25) this.classifications.d4 = {type:'高融合需求', desc:'你享受和伴侣高度融合的生活，分享和陪伴是亲密的核心。'};
+    else if (avg <= 50) this.classifications.d4 = {type:'平衡型', desc:'你在亲密和独立之间找到了相对舒适的平衡点。'};
+    else if (avg <= 70) this.classifications.d4 = {type:'高独立需求', desc:'独处是你重要的能量来源，在爱里你需要明确的个人边界。'};
+    else this.classifications.d4 = {type:'高度独立型', desc:'你视独立为自我完整性的基石，不希望任何关系侵蚀你的个人空间。'};
+  }
+
+  // D5: 爱的语言 - 发送端 & 接收端
+  scoreD5() {
+    const giveMap = {
+      Q6: {A:'分析解决', B:'灵活回应', C:'专注倾听', D:'经验分享'},
+      Q11: {A:'坦诚对话', B:'肢体接触', C:'贴心行动', D:'给予空间'}
+    };
+    const receiveMap = {
+      Q18: {A:'肯定的言语', B:'贴心的行动', C:'用心的礼物', D:'高质量的陪伴'}
+    };
+    this.classifications.d5 = {
+      giving: [giveMap.Q6[this.ans(6)], giveMap.Q11[this.ans(11)]],
+      receiving: receiveMap.Q18[this.ans(18)]
+    };
+  }
+
+  // D6: 关系安全感
+  scoreD6() {
+    const map = {
+      Q8: {A:0, B:30, C:55, D:75},
+      Q16: {A:0, B:40, C:70, D:85},
+      Q17: {A:10, B:35, C:60, D:45}
+    };
+    const vals = [map.Q8[this.ans(8)], map.Q16[this.ans(16)], map.Q17[this.ans(17)]];
+    const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+    this.scores.d6 = Math.round(avg);
+    if (avg <= 25) this.classifications.d6 = {type:'主动确认型', desc:'感到不安时你会主动沟通确认，而不是在心里猜测。'};
+    else if (avg <= 50) this.classifications.d6 = {type:'平衡警觉型', desc:'你会在观察和确认之间寻找平衡，不轻易下结论。'};
+    else if (avg <= 70) this.classifications.d6 = {type:'内部消化型', desc:'安全感受到威胁时，你的第一反应是向内消化，暗自观察。'};
+    else this.classifications.d6 = {type:'高度警觉型', desc:'你对关系中的威胁信号高度敏感，防御系统随时待命。'};
+  }
+
+  // D7: 情感核心驱动力
+  scoreD7() {
+    // Qualitative analysis based on multiple answers
+    const q1 = this.ans(1), q2 = this.ans(2), q3 = this.ans(3);
+    const q12 = this.ans(12), q13 = this.ans(13), q15 = this.ans(15);
+
+    // Count driving forces
+    let drives = { understood:0, safe:0, grow:0, free:0 };
+
+    // Q1: what makes heart flutter
+    if (q1==='A') drives.understood+=2;
+    if (q1==='B') { drives.understood+=1; drives.safe+=1; }
+    if (q1==='C') drives.grow+=1;
+    if (q1==='D') drives.safe+=2;
+
+    // Q2: fulfillment
+    if (q2==='A') drives.understood+=2;
+    if (q2==='B') drives.safe+=1;
+    if (q2==='C') drives.grow+=2;
+    if (q2==='D') { drives.free+=2; drives.safe+=1; }
+
+    // Q3: attraction
+    if (q3==='A') drives.understood+=2;
+    if (q3==='B') { drives.understood+=1; drives.safe+=1; }
+    if (q3==='C') { drives.grow+=1; drives.free+=1; }
+    if (q3==='D') drives.safe+=2;
+
+    // Q12: 5-year outlook
+    if (q12==='A') { drives.grow+=2; drives.free+=1; }
+    if (q12==='B') drives.safe+=2;
+    if (q12==='C') drives.free+=2;
+    if (q12==='D') { drives.understood+=1; drives.grow+=1; }
+
+    // Q13: ideal relationship
+    if (q13==='A') drives.grow+=2;
+    if (q13==='B') drives.understood+=2;
+    if (q13==='C') drives.safe+=2;
+    if (q13==='D') { drives.free+=1; drives.grow+=1; }
+
+    // Q15: attitude to partner flaws
+    if (q15==='A') drives.safe+=1;
+    if (q15==='B') { drives.grow+=1; drives.understood+=1; }
+    if (q15==='C') drives.grow+=2;
+    if (q15==='D') { drives.free+=2; drives.safe-=1; }
+
+    const sorted = Object.entries(drives).sort((a,b)=>b[1]-a[1]);
+    this.classifications.d7 = {
+      primary: sorted[0][0],
+      primaryLabel: { understood:'追求被理解', safe:'追求安全感', grow:'追求共同成长', free:'追求自由与自我' }[sorted[0][0]],
+      scores: drives,
+      secondary: sorted[1][0],
+      deepestDesire: {
+        understood: '被真正地"看见"和"懂得"——精神的被理解胜过一切',
+        safe: '不会突然失去的、可以放心把自己交出去的关系',
+        grow: '两个人并肩变得更好，互相成就而非互相消耗',
+        free: '一段不会让你失去自我的关系——爱是加分项，不是必需品'
+      }[sorted[0][0]],
+      deepestFear: {
+        understood: '不被看见、不被理解、在关系中感到孤独',
+        safe: '被抛弃、被背叛、信任落空',
+        grow: '被拖累、停滞不前、在关系中失去方向',
+        free: '被控制、被吞噬、因爱失去自我'
+      }[sorted[0][0]]
+    };
+  }
+
+  // --- Insight Rules ---
+  checkInsights() {
+    const a = this.a;
+    const ti = this.triggeredInsights;
+
+    // A1: 三重保护壳
+    if (['C','D'].includes(a[7]) && ['C','D'].includes(a[10]) && ['C','D'].includes(a[16])) {
+      ti.push({id:'A1', priority:'high', category:'防御与保护模式', title:'三重保护壳',
+        text: `你的答案揭示了一个值得关注的情感模式：在情感分享（Q7）、脆弱展示（Q10）和信任受威胁时的反应（Q16）——这三个从浅到深的情感层面，你都选择了内敛或回避策略。这不是三个独立的习惯，而是一个连贯的防御体系。你在感情的外围（日常分享）、中层（脆弱表达）和核心（信任安全）各设了一道防线。<br><br><b>这通常意味着什么：</b>这种层层设防的模式往往不是天生的——它通常来源于"曾经敞开过但受伤了"的经历。你学会了"不期待就不会失望"、"不展示就不会被利用"的自保机制。短期它保护了你，长期它让亲密的人始终隔着一层玻璃。<br><br><b>它在关系中可能表现为：</b>伴侣可能觉得"走不进你的内心"，你则可能感到"我已经在努力了为什么ta还不满足"。当关系遇到真正考验时，你的第一反应可能是撤退而非靠近。`
+      });
+    }
+
+    // A2: 围墙建筑者
+    if (a[14]==='D' && a[16]==='D' && a[10]==='D') {
+      ti.push({id:'A2', priority:'high', category:'防御与保护模式', title:'围墙建筑者',
+        text: `你在个人空间（Q14）、信任威胁（Q16）和脆弱表达（Q10）三个关键问题上都选择了高度防御的策略。这是一个完整的"情感围墙"：你既需要大量的独处来维持自我，又在感到不安时疏远而非靠近，而且几乎不展示脆弱。<br><br><b>这通常意味着什么：</b>这种强度的防御，往往说明"独立"对你来说不仅是偏好，更是生存策略。你可能在过去的经历中学会了——依赖别人是危险的，只有靠自己才是最安全的。<br><br><b>它在关系中可能表现为：</b>你在恋爱中可能会被伴侣评价为"冷淡"或"不需要我"——而这恰恰是你最不希望对方感受到的。因为围墙里不是空的，只是被保护得太好了。`
+      });
+    }
+
+    // B1: 渴望与恐惧的拉锯
+    if (a[14]==='A' && a[16]==='D') {
+      ti.push({id:'B1', priority:'high', category:'矛盾与张力模式', title:'渴望与恐惧的拉锯',
+        text: `你的答案中存在一个重要的矛盾：在亲密距离上（Q14），你希望"融合在一起，尽可能多地分享彼此的生活"；但在信任受到威胁时（Q16），你的反应却是"疏远，用冷淡保护自己"。这是恐惧型（矛盾型）依恋的标志性特征——你既深深渴望亲密的连接，又在感受到不安全时本能地推开对方。<br><br><b>这通常意味着什么：</b>你不是"不想要"，而是"太想要了所以怕"。当一切顺利时你是最温暖的伴侣；但当一丝不确定出现时，你的第一反应是后退。<br><br><b>它在关系中可能表现为：</b>伴侣可能感到困惑——"你之前明明那么亲近，为什么突然变得冷淡？"这种冷热交替的模式如果未被理解，可能导致双方在追-逃的循环中耗尽精力。`
+      });
+    }
+
+    // B2: 理性外壳，情感内核
+    if (a[9]==='A' && a[10]==='D') {
+      ti.push({id:'B2', priority:'normal', category:'矛盾与张力模式', title:'理性外壳，情感内核',
+        text: `你在面对分歧时敢于直面沟通（Q9），这是一个优势。但当自己难过或脆弱时，你却完全隐藏情绪、装作没事（Q10）。你拥有一个"理性外壳"——在外部事件上你能理性应对，但在涉及自己内心脆弱的事情上，你把门锁上了。<br><br><b>这通常意味着什么：</b>你可能更习惯于扮演关系中"强大的那一方"。解决问题你在行，但展示脆弱让你感到不安全。<br><br><b>它在关系中可能表现为：</b>伴侣可能会觉得你们的关系"只有头脑的交流，没有心的交流"。你能帮ta分析一切烦恼，但当ta问"你还好吗"的时候，你的标准回答是"没事"。`
+      });
+    }
+
+    // B3: 和解频道错位
+    if (a[9]==='A' && ['B','C'].includes(a[11])) {
+      ti.push({id:'B3', priority:'normal', category:'矛盾与张力模式', title:'和解频道错位',
+        text: `一个有趣的发现：你在冲突时选择直面沟通、把问题说清楚（Q9），但你觉得最好的和解方式却是肢体接触或行动（Q11）——不是继续谈话。这意味着你解决冲突和修复情感使用的是两个完全不同的"频道"。<br><br><b>这通常意味着什么：</b>争吵时的"谈话"对你来说是解决问题，不是修复情感。当问题解决后，你需要的不是"再谈一次"，而是一个拥抱或一个贴心的行动来确认"我们还在一起"。<br><br><b>它在关系中可能表现为：</b>一句"你吵完架连句软话都不说"可能是你们关系中的经典台词。不是你不愿意，而是你的"软话"说的是另一种语言。`
+      });
+    }
+
+    // C1: 发送与接收频道不对齐
+    const giveStyle = this.classifications.d5 ? this.classifications.d5.giving.join('、') : '';
+    const receiveStyle = this.classifications.d5 ? this.classifications.d5.receiving : '';
+    if (a[18] !== a[6] && a[18] !== a[11]) {
+      // simplified check: if receiving channel differs from both giving channels
+      const recvA = a[18];
+      const giveA = [a[6], a[11]];
+      if (!giveA.includes(recvA)) {
+        ti.push({id:'C1', priority:'normal', category:'爱的语言模式', title:'发送与接收频道不对齐',
+          text: `你最能感受到爱的方式（Q18：${receiveStyle}），和你自然表达爱的方式（Q6、Q11：${giveStyle}），使用的是不同的"频道"。这意味着——你可能在用自己习惯的方式拼命表达爱，但伴侣接收不到；而你也一直在等一种对方可能从来没用过的方式来爱你。<br><br><b>这通常意味着什么：</b>每个人都有自己的"爱的母语"。如果你接收爱的语言和表达爱的方式不同，那么可能出现的情况是：你为伴侣做了很多，心里觉得"我已经很爱ta了"，但伴侣的感觉是"你都没用我想要的方式爱我"。<br><br><b>它在关系中可能表现为：</b>双方都觉得自己在付出，但双方都觉得不被满足。这不是爱得不够，是翻译出了问题。`
+        });
+      }
+    }
+
+    // C2: 言语渴望与表达障碍
+    if (a[18]==='A' && a[7]==='D') {
+      ti.push({id:'C2', priority:'normal', category:'爱的语言模式', title:'言语渴望与表达障碍',
+        text: `一个值得关注的悖论：你最希望伴侣用"肯定的言语"来表达爱（Q18），但你却觉得表达内心感受"不太自在，更习惯用行动表达关心"（Q7）。你渴望听到"我爱你"、赞美和鼓励——但你自己却很少开口说这些。<br><br><b>这通常意味着什么：</b>这种"渴望但自己不擅长给予"的模式，可能指向一个深层信念：你不太确定自己是否"值得"被用言语肯定，或者过去的经历让你觉得开口表达情感是不安全的。<br><br><b>它在关系中可能表现为：</b>你可能常常感到"ta是不是不爱我了"，因为伴侣没有给到你需要的言语肯定。但如果你不开口告诉伴侣"我需要这个"，对方可能永远在用ta自己的方式表达爱。`
+      });
+    }
+
+    // D1: 安全感优先过滤器
+    if (['B','C'].includes(a[16]) && ['C','D'].includes(a[8])) {
+      ti.push({id:'D1', priority:'normal', category:'安全感模式', title:'安全感优先过滤器',
+        text: `你在面对信任威胁时选择暗自观察或内心焦虑（Q16），同时面对压力时倾向于自己消化（Q8）。这两个选择共同揭示了一个模式：<b>安全感是你情感世界的核心过滤器</b>——你不会轻易主动确认关系是否安全，而是先在内部消化、观察、等待证据。<br><br><b>这通常意味着什么：</b>在进入一段关系或关系遇到波动时，你的默认状态是"警觉但不说"。你不想显得太需要对方、太没有安全感，所以你选择自己扛。但内在的焦虑并不会因为沉默而消失。<br><br><b>它在关系中可能表现为：</b>伴侣可能完全不知道你在焦虑——因为外表看起来一切正常。直到你某天突然变得冷淡或情绪化，对方才意识到"原来你一直在想这些"。`
+      });
+    }
+
+    // D2: 独立堡垒
+    if (['B','D'].includes(a[17]) && a[14]==='D') {
+      ti.push({id:'D2', priority:'normal', category:'安全感模式', title:'独立堡垒',
+        text: `你在伴侣获得异地机会时选择"支持ta去"或"让ta自己决定"（Q17），同时高度珍视个人独立（Q14）。这个组合勾勒出你在关系中的一个核心哲学：<b>独立的个体自愿选择在一起，比互相捆绑更有意义。</b><br><br><b>这通常意味着什么：</b>你的"独立"既是自尊也是防御。你不想成为任何人发展道路上的绊脚石——同样，你也不希望任何人阻碍你的路。这种态度让你在关系中显得大气、不纠缠，但有时候，它也可能让伴侣觉得"ta好像不是那么需要我"。<br><br><b>它在关系中可能表现为：</b>两个高度独立的人在一起，需要刻意制造"依赖"的时刻。偶尔允许自己被需要，也偶尔允许自己需要别人，不会削弱你的独立——只会让关系更真实。`
+      });
+    }
+
+    // E1: 沉默的深水区
+    if (['B','D'].includes(a[5]) && a[7]==='C' && a[10]==='C') {
+      ti.push({id:'E1', priority:'normal', category:'连接深度模式', title:'沉默的深水区',
+        text: `你在表达不同意见时偏向温和或回避（Q5），分享内心感受时选择"只有重要的事才会主动说"（Q7），表达脆弱时倾向间接方式（Q10）。这三个选择共同描绘了一个<b>"静水深流"式的情感人格</b>——表面平静、不轻易泛起波澜，但深处有丰富而复杂的情感世界。<br><br><b>这通常意味着什么：</b>你不是没有感受，你只是不习惯把它们铺在桌面上。你的情感世界像深水区——光线照不进来，所以外面的人看不到下面有多丰富。<br><br><b>它在关系中可能表现为：</b>你需要一个愿意"潜水"的伴侣——不是那种满足于表面寒暄的人，而是真正有耐心和好奇心去探索你内心世界的人。`
+      });
+    }
+
+    // E2: 精神共鸣至上
+    if (a[13]==='B' && a[1]==='A') {
+      ti.push({id:'E2', priority:'normal', category:'连接深度模式', title:'精神共鸣至上',
+        text: `你理想的关系是"灵魂深处的知己"（Q13），而最让你心动的场景是"深夜长谈、感觉被深深理解"（Q1）。这两个答案指向同一个结论：<b>对你来说，被理解是所有浪漫的前提。</b>心动的开始是精神上的共鸣，理想关系的终点也是。<br><br><b>这通常意味着什么：</b>你不是那种会因为"对方对我好"或"对方条件不错"而心动的人。你心动的原因是——"ta懂我"。这让你在感情中非常"挑剔"，因为能让你精神上感到被理解的人本来就不多。但也正因为如此，一旦你找到了，这种连接的深度是别人无法比拟的。`
+      });
+    }
+
+    // E3: 独立共生
+    if (a[14]==='D' && a[17]==='A') {
+      ti.push({id:'E3', priority:'normal', category:'连接深度模式', title:'独立共生',
+        text: `你高度珍视个人独立（Q14），但面对伴侣的重大人生决定时，你的倾向是"一起商量做决定"（Q17）。这是一个成熟的平衡：<b>你追求的不是"合并"，而是"联盟"。</b>你不想牺牲自己去成全对方，也不想牺牲对方来成全自己——而是在保持独立的同时愿意共同决策。<br><br><b>这通常意味着什么：</b>这种模式说明你对亲密关系有一种成熟的认知——我可以自己过得很好，但我选择和你一起商量，不是因为我没有决策能力，而是因为我尊重"我们"这个共同体。<br><br><b>它在关系中可能表现为：</b>你是那种"不会因为恋爱失去自我"的人——这是很大的优势。唯一需要注意的是：独立和协商之间的平衡需要双方都愿意维护。`
+      });
+    }
+  }
+
+  // --- Label Generation ---
+  generateLabel() {
+    // Slot 1: 情感节奏 - based on D1 + D4
+    const d1Score = this.scores.d1;
+    const d4Score = this.scores.d4;
+    if (d1Score > 65 && d4Score > 65) this.label.slot1 = {name:'慢热型', desc:'你需要时间确认一个人是否安全，感情升温慢，但一旦信任就非常坚定。'};
+    else if (d1Score < 35 && d4Score < 45) this.label.slot1 = {name:'快速沉浸型', desc:'你容易快速投入一段感情，被情感连接驱动，爱得热烈而直接。'};
+    else if ((d1Score > 55 && d4Score < 35) || (d1Score < 35 && d4Score > 65)) this.label.slot1 = {name:'波动型', desc:'你的情感温度不稳定，时而热烈靠近，时而冷淡疏远，在渴望与恐惧之间摇摆。'};
+    else this.label.slot1 = {name:'恒温型', desc:'你的感情节奏稳健，不疾不徐，自然地推进关系，温度稳定。'};
+
+    // Slot 2: 连接方式 - based on D2 + D5
+    const d2Score = this.scores.d2;
+    const receiving = this.classifications.d5.receiving;
+    if (d2Score > 50 && (this.a[13]==='B' || this.a[1]==='A')) this.label.slot2 = {name:'深度连接者', desc:'你不满足于表面交流，渴望被真正"看见"和"理解"，质量>数量。'};
+    else if ((this.a[6]==='A' || this.a[11]==='C' || receiving==='贴心的行动')) this.label.slot2 = {name:'行动守护者', desc:'你说"我爱你"的方式是做一桌菜、默默解决问题、在ta累的时候接过一切琐事。'};
+    else if (d2Score < 35 || receiving==='肯定的言语') this.label.slot2 = {name:'灵魂共振者', desc:'你通过坦诚的对话和情感的流动来建立连接，言语是你最重要的桥梁。'};
+    else this.label.slot2 = {name:'安静陪伴者', desc:'你不需要说话，彼此在身边各自做自己的事，就已经是最好的连接。'};
+
+    // Slot 3: 核心驱动 - based on D7
+    const drive = this.classifications.d7.primary;
+    this.label.slot3 = {
+      understood: {name:'追求被理解', desc:'你要的不是"我爱你"，而是"我懂你"——精神的被理解胜过一切。'},
+      safe: {name:'追求安全感', desc:'你要的是不会突然失去的、可以放心把自己交出去的关系。'},
+      grow: {name:'追求共同成长', desc:'你要的是两个人并肩变得更好，互相成就，而非互相消耗。'},
+      free: {name:'追求自由与自我', desc:'你要的是一段不会让你失去自我的关系——爱是加分项，不是必需品。'}
+    }[drive];
+  }
+
+  // --- Personalized label interpretation ---
+  getLabelInterpretation() {
+    const parts = [];
+    if (this.label.slot1.name === '慢热型') parts.push('你的感情升温需要时间，不会轻易敞开，但一旦确认了一个人对你来说是安全的，你会用最深的方式去连接');
+    else if (this.label.slot1.name === '恒温型') parts.push('你的感情节奏稳健自然，不疾不徐，每一段关系都有它自己的步调');
+    else if (this.label.slot1.name === '快速沉浸型') parts.push('你爱得热烈而直接，一旦心动就会全身心投入');
+    else parts.push('你的情感温度有自己的节奏，在渴望靠近和保护自我之间寻找平衡');
+
+    if (this.label.slot2.name === '深度连接者') parts.push('你渴望的从来不是热闹的陪伴，而是被一个人真正"看见"和"懂得"');
+    else if (this.label.slot2.name === '行动守护者') parts.push('你用行动而非言语来承载爱意——你爱的人可能不会常常听到"我爱你"，但一定会在每一个细节里感受到你的在乎');
+    else if (this.label.slot2.name === '灵魂共振者') parts.push('对你来说，坦诚的对话和情感的真实流动，是两个人之间最重要的纽带');
+    else parts.push('对你来说，最好的连接不是说了多少话，而是在一起的时候彼此有多自在');
+
+    if (this.classifications.d7.primary === 'understood') parts.push('在爱里，你最深处要的不是承诺，不是物质，而是被一个人真正地"懂"');
+    else if (this.classifications.d7.primary === 'safe') parts.push('在爱里，你最需要的是一个可以放心卸下所有防御的港湾');
+    else if (this.classifications.d7.primary === 'grow') parts.push('在爱里，你要的是两个人并肩向上——互相成就，而非互相消耗');
+    else parts.push('在爱里，你最深的需求是保有完整的自己——爱是生命的加分项，而不是全部');
+
+    return parts.join('；') + '。';
+  }
+}
+
+// --- Render Results ---
+function renderResults() {
+  const engine = new LoveMatchAnalyzer(answers);
+  const c = engine.classifications;
+  const label = engine.label;
+  const insights = engine.triggeredInsights;
+
+  // Find which dimensions have which insights
+  const insightMap = {};
+  insights.forEach(ins => {
+    if (ins.id.startsWith('A')) insightMap.d1 = ins;
+    if (ins.id.startsWith('B') && (ins.id==='B2')) insightMap.d2 = ins;
+    if (ins.id.startsWith('B') && (ins.id==='B3')) insightMap.d3 = ins;
+    if (ins.id==='D2') insightMap.d4 = ins;
+    if (ins.id.startsWith('C')) insightMap.d5 = ins;
+    if (ins.id==='D1') insightMap.d6 = ins;
+    if (ins.id.startsWith('E')) insightMap.d7 = ins;
+  });
+
+  // Build dimension bars
+  const bars = [
+    {label:'依恋风格', score:engine.scores.d1, level:c.d1.type, side: c.d1.level},
+    {label:'情感表达', score:engine.scores.d2, level:'开放' + ' ▸ '.repeat(Math.round(engine.scores.d2/25)) + '含蓄', side:''},
+    {label:'冲突应对', score:engine.scores.d3, level:c.d3.type, side:''},
+    {label:'亲密距离', score:engine.scores.d4, level:'独立' + ' ▸ '.repeat(Math.round(engine.scores.d4/25)) + '融合', side:''},
+    {label:'爱的语言(收)', score: engine.scores.d2 > 50 ? 70 : 30, level:c.d5.receiving + '型', side:'最打动你的方式'},
+    {label:'爱的语言(给)', score: engine.scores.d2 > 50 ? 30 : 70, level:(c.d5.giving[0]===c.d5.giving[1] ? c.d5.giving[0] : c.d5.giving.join('+')) + '型', side:'你表达爱的方式'},
+    {label:'核心驱动力', score: engine.scores.d6 > 50 ? 65 : 35, level:c.d7.primaryLabel, side:''},
+  ];
+
+  const html = `
+    <div class="screen active" id="result-screen">
+      <div class="card result-header">
+        <div style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:12px;">💕 你的情感人格深度解析</div>
+        <div class="result-label">🏷️ ${label.slot1.name} · ${label.slot2.name} · ${label.slot3.name}</div>
+        <div class="result-label-desc">${engine.getLabelInterpretation()}</div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px;">📌 情感画像速览</div>
+        ${bars.map(b => `
+          <div class="bar-chart">
+            <span class="bar-label">${b.label}：</span>
+            <div class="bar-track"><div class="bar-fill" style="width:${b.score}%"></div></div>
+            <span class="bar-val">${b.level}${b.side ? ' · '+b.side : ''}</span>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="section-divider">━━━━━ 第一部分：深度情感解析 ━━━━━</div>
+
+      <!-- D1: 依恋风格 -->
+      <div class="card result-dimension">
+        <h3>🔐 你的依恋风格：${c.d1.type}（${c.d1.level}）</h3>
+        <p>${c.d1.desc}</p>
+        <p><b>在恋爱中的具体表现：</b>你在第7题选择了"${getOptionText(7, answers[7])}"，在第14题选择了"${getOptionShort(14, answers[14])}"——当感到不安时，你的本能不是靠近而是先确认安全。你在第16题的选择进一步印证了这一点：当信任受到威胁时，你倾向于${answers[16]==='D'?'用冷淡保护自己':'先观察再判断'}。</p>
+        <p><b>你的情感安全机制：</b>让你感到安全的是可预测的、一致的关系模式；触发你不安的是模糊的信号和信任被挑战的威胁。你在第3题被"思想和谈吐的深度"吸引，说明对你来说，安全感不是来自对方的承诺，而是来自对方是否真正在认真对待你。</p>
+        <p><b>关于这种风格的真相：</b>回避型并不等于不需要爱——你在第2题和第13题的选择证明了你对连接质量的要求极高。你的问题不是"爱得不够深"，而是"害怕爱得太深之后失去控制"。</p>
+        ${insightMap.d1 ? `<div class="insight-box ${insightMap.d1.priority==='high'?'high-priority':''}"><b>🔬 ${insightMap.d1.title}</b><br>${insightMap.d1.text}</div>` : ''}
+      </div>
+
+      <!-- D2: 情感表达模式 -->
+      <div class="card result-dimension">
+        <h3>💬 你的情感表达模式：${c.d2.type}</h3>
+        <p>你在第7题选择了"${getOptionShort(7, answers[7])}"，在第10题选择了"${getOptionShort(10, answers[10])}"，在第5题选择了"${getOptionShort(5, answers[5])}"。${engine.scores.d2 > 50 ? '这三个选择共同说明：你不是没有感受，你只是不习惯让感受直接上桌。你的情感世界有一个"安检流程"——感受先经过内部消化，确认安全之后才会被放行。' : '你对自己的情绪有较高的觉察力，并愿意在合适的时候让信任的人看到真实的自己。'}</p>
+        <p><b>你如何说"我爱你"：</b>你在第6题选择了"${getOptionShort(6, answers[6])}"——这是你最自然的爱的表达方式。${answers[6]==='C'?'你的"我爱你"不是用嘴说的，而是用耳朵说的——当你专注倾听一个人时，这就是你的爱。':answers[6]==='A'?'你的爱体现在你愿意为对方的问题投入思考和分析——这是你最真诚的关怀方式。':'你的爱体现在你愿意为对方调整自己的回应方式——这种灵活性本身就是一种深情。'}</p>
+        <p><b>伴侣最容易误解你的地方：</b>${engine.scores.d2 > 50 ? '你的沉默≠不在乎。恰恰相反，你只对真正在乎的人才会认真倾听、反复思考。你的疏远≠不爱了——后退的原因往往不是"不想靠近"，而是"不确定靠近是否安全"。' : '你的直接可能被误解为"不够温柔"，但对你来说，真诚就是最大的温柔。'}</p>
+        ${insightMap.d2 ? `<div class="insight-box"><b>🔬 ${insightMap.d2.title}</b><br>${insightMap.d2.text}</div>` : ''}
+      </div>
+
+      <!-- D3: 冲突应对 -->
+      <div class="card result-dimension">
+        <h3>⚡ 冲突中的你：${c.d3.type}</h3>
+        <p><b>当分歧来临时：</b>你在第9题选择了"${getOptionShort(9, answers[9])}"——${answers[9]==='C'?'你的第一反应是先观察对方的态度和反应，再决定怎么应对。你是一个冲突适应性策略者——根据情况和关系安全度来调整策略。':answers[9]==='A'?'你选择立刻沟通、把问题摊开说清楚。对你来说，悬而未决比正面交锋更让人焦虑。':answers[9]==='B'?'你倾向于先让双方冷静，情绪平复后再坐下来谈——你相信冷静比激烈交锋更有效。':'你在冲突面前本能地想要回避，希望事情自然淡化。'}</p>
+        <p><b>你真正需要的修复方式：</b>你在第11题选择了"${getOptionShort(11, answers[11])}"。${answers[11]==='A'?'在关系修复这件事上，你想要的是彻底的、真诚的对话——不是糊弄过去，而是真的把话说开。':'你更倾向于用非语言的方式来修复关系——对你来说，一个拥抱或一个贴心的行动比长篇大论更有力量。'}</p>
+        ${answers[9]!==answers[11] && answers[9]!=='A' || (answers[9]==='A' && answers[11]!=='A') ? `<p><b>有趣的张力：</b>你在冲突时的表现（${answers[9]==='C'?'观察适应':answers[9]==='A'?'主动直面':answers[9]==='B'?'冷静退后':'回避退让'}）和你真正需要的修复方式（${answers[11]==='A'?'坦诚对话':answers[11]==='B'?'肢体接触':answers[11]==='C'?'贴心行动':'空间时间'}）使用的可能是两个不同的"频道"。这意味着你可能在吵架时冷静观察，但和好时才真正认真交流——如果伴侣不理解这个节奏，可能会感到困惑。</p>` : ''}
+        ${insightMap.d3 ? `<div class="insight-box"><b>🔬 ${insightMap.d3.title}</b><br>${insightMap.d3.text}</div>` : ''}
+      </div>
+
+      <!-- D4: 亲密与独立 -->
+      <div class="card result-dimension">
+        <h3>📏 亲密与独立的平衡</h3>
+        <p><b>你的舒适距离：</b>你在第14题选择了"${getOptionShort(14, answers[14])}"，在第4题选择了"${getOptionShort(4, answers[4])}"。${engine.scores.d4 > 50 ? '独处对你来说是充电站，不是避难所。你不是因为恐惧社交而独处，而是独处本身就是你恢复能量、整理思绪的必要方式。' : '你喜欢和人在一起的温暖感，社交对你来说是能量的来源而非消耗。'}</p>
+        <p><b>在爱里保护你的空间：</b>${engine.scores.d4 > 50 ? '你需要伴侣理解："我需要空间 ≠ 我不爱你"。这可能是在恋爱中最容易被误解的地方。你的理想是既有品质极高的连接，又有明确清晰的边界——像一个有围墙的花园，门不是随时开着，但进来的人会发现里面很深、很丰富。' : '你享受和伴侣共享生活，但要注意在亲密中保留一些只属于自己的角落。'}</p>
+        ${insightMap.d4 ? `<div class="insight-box"><b>🔬 ${insightMap.d4.title}</b><br>${insightMap.d4.text}</div>` : ''}
+      </div>
+
+      <!-- D5: 爱的语言 -->
+      <div class="card result-dimension">
+        <h3>🎁 你的爱的语言</h3>
+        <p><b>你如何感受爱（接收端）：</b>你在第18题选择了"${c.d5.receiving}"——${answers[18]==='D'?'放下手机的专注时光、眼神接触、拥抱、一起做喜欢的事，这比任何礼物和情话都更能让你感受到被爱。':'对方用' + c.d5.receiving + '来表达在乎，是最能直达你内心的方式。'}</p>
+        <p><b>你如何表达爱（发送端）：</b>你主要通过<b>${c.d5.giving.join('</b>和<b>')}</b>来表达爱意。${c.d5.giving.includes('专注倾听') ? '当一个人向你倾诉时，你用高质量的倾听来传递"你对我很重要"。' : ''}${c.d5.giving.includes('坦诚对话') ? '在关系的关键时刻，你会选择坐下来认真沟通——这是你最有勇气的表达。' : ''}</p>
+        ${insightMap.d5 ? `<div class="insight-box"><b>🔬 ${insightMap.d5.title}</b><br>${insightMap.d5.text}</div>` : ''}
+      </div>
+
+      <!-- D6: 关系安全感 -->
+      <div class="card result-dimension">
+        <h3>🛡️ 关系安全感</h3>
+        <p>${c.d6.type}——${c.d6.desc}</p>
+        <p>你在第8题选择了"${getOptionShort(8, answers[8])}"，在第16题选择了"${getOptionShort(16, answers[16])}"，在第17题选择了"${getOptionShort(17, answers[17])}"。${engine.scores.d6 > 50 ? '当关系中出现不确定信号时，你的默认反应是先向内消化、观察、等待更多证据——而不是立刻向外确认。这保护了你在短期内不受伤，但长期来看，可能会让伴侣不知道你在担心什么。' : '当感到不安时，你倾向于主动确认而非被动猜测——这让你在关系中能够较快地消解不确定性。'}</p>
+        ${insightMap.d6 ? `<div class="insight-box"><b>🔬 ${insightMap.d6.title}</b><br>${insightMap.d6.text}</div>` : ''}
+      </div>
+
+      <!-- D7: 情感核心驱动力 -->
+      <div class="card result-dimension">
+        <h3>💎 情感核心驱动力：${c.d7.primaryLabel}</h3>
+        <p><b>在关系中最深的渴望：</b>${c.d7.deepestDesire}。你在第1题被${answers[1]==='A'?'深夜长谈的精神共鸣':answers[1]==='B'?'被认真对待的温柔细节':answers[1]==='C'?'并肩冒险的兴奋感':'日常中突然确认的踏实感'}打动，在第13题理想的关系是${answers[13]==='A'?'并肩作战的战友':answers[13]==='B'?'灵魂深处的知己':answers[13]==='C'?'温暖安定的港湾':'一起探索的玩伴'}——这些选择都指向同一个方向。</p>
+        <p><b>在关系中最深的恐惧：</b>${c.d7.deepestFear}。</p>
+        <p><b>你的"情感必需品"vs"情感加分项"：</b>对你来说，${c.d7.primary==='understood'?'被理解是必需品——没有精神共鸣的关系对你来说只是一具空壳':c.d7.primary==='safe'?'安全感是必需品——你无法在一段让你时刻警惕的关系中感到幸福':c.d7.primary==='grow'?'共同成长是必需品——停滞不前或互相消耗的关系会让你感到窒息':'保有自我是必需品——任何让你感到"正在失去自己"的关系，最终都会被你推开'}。其他的——陪伴、浪漫、物质——都是加分项。</p>
+        ${insightMap.d7 ? `<div class="insight-box"><b>🔬 ${insightMap.d7.title}</b><br>${insightMap.d7.text}</div>` : ''}
+      </div>
+
+      <!-- Growth area -->
+      <div class="card result-dimension">
+        <h3>🌱 你的情感优势与成长区</h3>
+        <p><b>你天然做得好的地方：</b></p>
+        <ul style="padding-left:18px;font-size:14px;color:var(--text-light);line-height:2;">
+          <li>${engine.scores.d4 > 50 ? '你在关系中不会失去自我——你有清晰的人生方向、明确的个人边界和不容妥协的底线。这是很多人花一辈子都学不会的。' : '你对亲密关系的投入和开放让伴侣能真实地感受到你的在乎。'}</li>
+          <li>${engine.scores.d2 > 40 ? '你追求深度而非数量——每一次连接、每一次敞开都是有质量的，一旦投入就是认真的。' : '你的情感透明度高，伴侣不需要猜测你在想什么——这在亲密关系中是非常宝贵的。'}</li>
+          <li>${answers[11]==='A' ? '你在关键时刻敢于沟通——虽然日常可能不轻易开口，但在关系修复的"关键时刻"，你会选择坐下来坦诚对话。' : '你懂得用行动而非空话来表达在乎——这种踏实的爱是很多关系中最稀缺的。'}</li>
+        </ul>
+        <p style="margin-top:12px;"><b>可能会"绊倒你"的模式：</b></p>
+        <ul style="padding-left:18px;font-size:14px;color:var(--text-light);line-height:2;">
+          ${engine.scores.d1 > 50 ? '<li>感到不安就疏远——这个策略短期保护了你，但长期让你错过了很多"沟通一下就能解决"的机会。</li>' : ''}
+          ${engine.scores.d2 > 50 ? '<li>你的信号别人读不懂——难过时用间接方式表达，冲突时先观察，日常只分享重要的事。从伴侣视角看，你可能是一个"情绪黑箱"。</li>' : ''}
+          ${engine.scores.d1 <= 50 && engine.scores.d2 <= 50 ? '<li>你可能对关系抱有过高的期待——不是所有人都能像你一样坦诚和开放，有时对方需要更多时间和耐心。</li>' : ''}
+        </ul>
+        <p style="margin-top:12px;"><b>给你的成长建议：</b></p>
+        <ol style="padding-left:18px;font-size:14px;color:var(--text-light);line-height:2;">
+          ${engine.scores.d1 > 50 ? '<li>试着在"还不够确定安全"的时候，先开口说一句话。不需要摊开全部内心，只需要一句"我现在有点不安，能和你聊聊吗"——比疏远之后等对方来猜消耗的能量小得多。</li>' : ''}
+          ${engine.scores.d2 > 50 ? '<li>直接告诉伴侣你的"翻译规则"："当我沉默的时候，我不是在冷战，我是在自己消化。当我需要独处的时候，我不是不想见你，我是在充电。"这几句话可以避免大量误解。</li>' : ''}
+          <li>试着在一个你认为安全的人面前，先卸下最外面那层壳——不需要全部打开，只需要透一点光。你可能会发现，这一次和上一次不一样。</li>
+        </ol>
+      </div>
+
+      <div class="section-divider">━━━━━ 第二部分：理想型画像 ━━━━━</div>
+
+      <div class="card result-dimension">
+        <h3>💝 与你契合的伴侣</h3>
+        <p><b>大致画像：</b>基于你的情感运作方式，一个与你自然共鸣的人大概是这样的：ta有着丰富的内心世界和独立的思考能力${engine.scores.d4 > 50 ? '，不需要频繁的社交刺激来填充生活' : ''}；ta不急于推进关系，愿意用时间和耐心来等待你慢慢敞开；ta能察觉你微妙的情绪变化——你变得沉默、心不在焉的时候，ta知道这可能是你心情不好，但不会逼迫你开口，而是安静地待在你身边${engine.scores.d4 > 50 ? '，给你空间的同时让你知道"我在"' : ''}；ta的精神世界和你有交集——不一定完全一样，但ta对你有好奇心，愿意和你进行${c.d7.primary==='understood'?'深入的对话，而且ta真的在听':c.d7.primary==='grow'?'有意义的交流，一起成长和进步':'真诚的交流，给你稳定和踏实的感觉'}。</p>
+        <p>更重要的是，ta自身的安全感足够充足。ta不会把你偶尔的疏远解读为"不爱了"，不会把你需要独处解读为"你不想和我在一起"，不会在你沉默的时候感到被拒绝。ta理解"我需要空间"和"我需要你"可以同时存在。</p>
+
+        <p style="margin-top:12px;"><b>为什么这样的人适合你：</b></p>
+        <ul style="padding-left:18px;font-size:14px;color:var(--text-light);line-height:2;">
+          ${engine.scores.d1 > 40 ? '<li>你在依恋风格上偏回避型，一个自身安全感充足的人不会把你的偶尔后退当作关系危机，从而避免追-逃的恶性循环。</li>' : '<li>你能在关系中保持稳定和安全，需要一个同样情绪成熟、不轻易被波动带跑的人来匹配你的节奏。</li>'}
+          <li>你追求${c.d7.primary==='understood'?'深度的精神共鸣——一个没有丰富内心世界的人，就算对你再好，你也很难真正心动':c.d7.primary==='safe'?'关系的确定性和安全感——一个忽冷忽热、不靠谱的人会持续触发你的焦虑':c.d7.primary==='grow'?'共同成长——一个安于现状、不愿进步的人会让你感到这段关系在消耗你':'自我完整——一个试图控制或改变你的人，会触动你最深的防御'}。</li>
+          ${engine.scores.d4 > 50 ? '<li>你高度珍视个人独立，一个同样有自己生活和追求的人，不会把你的独立当作威胁，而是会欣赏和尊重。</li>' : '<li>你重视亲密和连接，一个愿意花时间陪伴、不会因为忙碌而忽略你的人，才能让你感受到被重视。</li>'}
+        </ul>
+
+        <p style="margin-top:12px;"><b>相处中最重要的几件事：</b></p>
+        <ol style="padding-left:18px;font-size:14px;color:var(--text-light);line-height:2;">
+          ${engine.scores.d4 > 50 ? '<li><b>当你后退一步时，让对方知道这不是拒绝。</b>也许只需要一句话："我需要一点时间自己待会儿，不是你的问题。"</li>' : ''}
+          ${answers[18]==='D' ? '<li><b>当ta给你专注的陪伴时，让自己真正沉浸其中。</b>你的爱的语言是高质量的陪伴，当ta放下手机看着你的时候，试着放下防御，让自己真的待在那一刻。</li>' : ''}
+          <li><b>定期做一次"关系体检"。</b>${answers[11]==='A' ? '你习惯在冲突后坐下来坦诚沟通，但不要只在出了问题的时候才沟通。每隔一段时间，主动发起一次"我们最近好吗"的对话。' : '不要等到问题积累到爆发才沟通。定期主动发起轻松的"关系检查"，可以防止小问题变成大裂痕。'}</li>
+        </ol>
+      </div>
+
+      <div class="result-footer">
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br><br>
+        💬 以上是对你情感世界的深度解析。<br>认识自己是一切美好关系的前提。<br><br>
+        你觉得这份分析准确吗？欢迎分享给朋友一起讨论！
+      </div>
+
+      <div class="action-buttons" style="margin-bottom:32px;">
+        <button class="btn btn-primary btn-small" onclick="shareResult()">📤 分享给朋友</button>
+        <button class="btn btn-outline btn-small" onclick="retakeQuiz()">🔄 重新测评</button>
+      </div>
+    </div>
+  `;
+
+  app.innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --- Helpers ---
+function getOptionText(id, letter) {
+  const q = QUESTIONS.find(q => q.id === id);
+  return q ? q.options[letter] : '';
+}
+function getOptionShort(id, letter) {
+  const text = getOptionText(id, letter);
+  if (text.length > 30) return text.substring(0, 28) + '...';
+  return text;
+}
+
+// --- Actions ---
+function startQuiz() {
+  answers = {};
+  currentQuestion = 0;
+  currentStage = 1;
+  renderQuestion();
+}
+
+function selectAnswer(letter) {
+  const q = QUESTIONS[currentQuestion];
+  answers[q.id] = letter;
+
+  if (currentQuestion < 17) {
+    const nextQ = QUESTIONS[currentQuestion + 1];
+    if (nextQ.stage > currentStage) {
+      // Show stage transition
+      const completedStage = currentStage;
+      currentStage = nextQ.stage;
+      currentQuestion++;
+      renderTransition(completedStage);
+    } else {
+      currentQuestion++;
+      renderQuestion();
+    }
+  } else {
+    // Last question answered - show loading then results
+    renderLoading();
+  }
+}
+
+function continueQuiz() {
+  renderQuestion();
+}
+
+function retakeQuiz() {
+  answers = {};
+  currentQuestion = 0;
+  currentStage = 1;
+  renderWelcome();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function shareResult() {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({
+      title: '💕 情感人格深度解析',
+      text: '来看看你在恋爱中的情感模式是什么样的？18道题，3-5分钟，深度解析你的情感人格。',
+      url: url
+    }).catch(() => copyToClipboard(url));
+  } else {
+    copyToClipboard(url);
+  }
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('✅ 链接已复制！发送给朋友一起测吧'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('✅ 链接已复制！发送给朋友一起测吧');
+  }
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 0.3s';
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 2000);
+}
+
+// --- Init ---
+renderWelcome();
+</script>
+</body>
+</html>
