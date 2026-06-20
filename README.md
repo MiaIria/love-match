@@ -1,45 +1,109 @@
-# 💕 恋爱说明书 — 情感人格深度解析
+# Love Match · 恋爱匹配分析 Skill
 
-一个专注于**恋爱情感世界**的深度测评工具。
+> 通过对话或问卷分析用户在亲密关系中的性格特征、相处模式和适配伴侣类型。
 
-与 MBTI、星座分析等泛性格测试不同，本测评**只聚焦一件事**：你在恋爱中的情感模式——你如何爱、如何怕、如何需要、如何表达。
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Claude%20Code-purple)](https://claude.ai/code)
 
-## ✨ 特点
+---
 
-- 🎯 **18 道递进式选择题**，5 个阶段，约 3-5 分钟完成
-- 🔬 **7 维情感分析**：依恋风格、情感表达、冲突应对、亲密距离、爱的语言、关系安全感、情感核心驱动力
-- 🏷️ **64 种三维情感标签**（4×4×4），精准定位你的恋爱人格
-- 📊 **完整的个性化分析报告**，包含 12 条情感洞察规则
-- 📱 移动端适配，微信/浏览器均可使用
+## 🎯 这是什么
 
-## 🚀 快速开始
+`love-match` 是一个面向亲密关系自我理解的 Codex Skill。它支持两种使用方式：
 
-```bash
-git clone https://github.com/MiaIria/love-match.git
-cd love-match
-# 直接用浏览器打开 index.html，或部署到任意静态服务器
+- **对话模式**：通过开放式问题收集性格、价值观、冲突处理和关系期待。
+- **问卷模式**：通过结构化问题快速形成基础画像。
+
+输出结果包括：
+
+- 用户性格画像
+- 适配伴侣类型推荐
+- 为什么匹配
+- 潜在挑战
+- 具体相处建议
+- 后续反馈和修正问题
+
+它不是心理诊断，也不是“命定伴侣”预测，而是一个帮助用户更清楚理解自己关系模式的轻量工具。
+
+---
+
+## 📦 目录结构
+
+```text
+love-match/
+├── SKILL.md                         # Codex Skill 入口
+├── assets/
+│   └── love-match-test.html          # 18 题 H5 测评 Demo
+└── references/
+    ├── README.md
+    ├── questionnaire-design.md       # 问卷结构和题目设计原则
+    ├── scoring-and-rules.md          # 维度、评分和洞察规则
+    ├── report-framework.md           # 报告结构和表达边界
+    └── barnum-effect-avoidance.md    # 巴纳姆效应规避
 ```
 
-## 🌐 在线体验
+---
 
-👉 **[https://miairia.github.io/love-match/](https://miairia.github.io/love-match/)**
+## 🚀 使用方式
 
-## 📋 技术栈
+在 Codex / Claude Code 中调用：
 
-纯前端单页应用，无需后端：
+```text
+/love-match
+```
 
-- HTML5 + CSS3 + Vanilla JavaScript
-- 移动端优先响应式设计
-- 全部分析逻辑运行在浏览器端，不收集任何用户数据
+指定问卷模式：
 
-## 🤝 反馈与贡献
+```text
+/love-match questionnaire
+```
 
-这个项目还在持续优化中，欢迎：
+指定对话模式：
 
-- 🐛 提交 [Issue](https://github.com/MiaIria/love-match/issues) 报告问题
-- 💡 分享你的测评体验和改进建议
-- ⭐ 给项目点个 Star 支持一下
+```text
+/love-match conversation
+```
 
-## 📄 开源协议
+---
 
-MIT License
+## 🧠 设计重点
+
+### 1. 先理解自己，再谈匹配
+
+报告不直接告诉用户“你适合谁”，而是先分析用户自己的关系模式，再给出适配类型。
+
+### 2. 避免绝对化判断
+
+输出中使用“可能”“倾向于”“通常”等表达，避免把用户固定成某种标签。
+
+### 3. 用 references 支撑产品逻辑
+
+`references/` 里沉淀了问卷设计、评分维度、洞察规则、报告结构和巴纳姆效应规避方法，方便维护和面试讲解。
+
+### 4. H5 Demo 展示完整体验
+
+`assets/love-match-test.html` 是一个本地可打开的 18 题 H5 Demo，包含题目、阶段推进、分析引擎和结果页。
+
+---
+
+## 🛡️ 输出边界
+
+必须做到：
+
+- 温和、客观、有同理心
+- 使用简体中文
+- 给出具体相处建议
+- 强调结果仅供参考
+
+避免：
+
+- 心理诊断式结论
+- 宿命论或玄学判断
+- “你一定适合/不适合某类人”
+- 过度泛化的巴纳姆式描述
+
+---
+
+## License
+
+MIT © MiaIria
